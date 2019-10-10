@@ -1,6 +1,11 @@
 import numpy as np
 import tensorflow as tf
 
+# More specifically, find an estimate of w∗ = [−8, −4, 2, 1]^T supposing that such vector is unknown.
+# Each xi should be in the interval [−3, 2].
+# Use a sample of size 100 created with a seed of 0 for training, and a sample of size 100 created with a seed of 1
+# for validation. Let σ = 1/2.
+
 
 def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
     """Create linear regression dataset (without bias term)"""
@@ -11,7 +16,7 @@ def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
     for i in range(sample_size):
         X[i, 0] = 1.
         for j in range(1, w_star.shape[0]):
-            X[i, j] =  # Incomplete
+            X[i, j] = x[i] ** j
 
     y = X.dot(w_star)
 
@@ -26,9 +31,12 @@ def main():
 
     sample_size_val = 100
     n_dimensions = 10
-    sigma = 0.1
+    sigma = 0.5
     n_iterations = 20
     learning_rate = 0.5
+
+    w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
+    x_range = [-3, 2]
 
     # Placeholder for the data matrix, where each observation is a row
     X = tf.placeholder(tf.float32, shape=(None, n_dimensions))  # Placeholder for the targets
@@ -47,7 +55,7 @@ def main():
 
     initializer = tf.global_variables_initializer()
 
-    X_train, y_train = create_dataset(sample_size_train, n_dimensions, sigma)
+    X_train, y_train = create_dataset(w_star, x_range, sample_size_train, sigma, 0)
 
     session = tf.Session()
     session.run(initializer)
@@ -56,7 +64,7 @@ def main():
         l, _ = session.run([loss, train], feed_dict={X: X_train, y: y_train})
         print('Iteration {0}. Loss: {1}.'.format(t, l))
 
-    X_val, y_val = create_dataset(sample_size_val, n_dimensions, sigma)
+    X_val, y_val = create_dataset(w_star, x_range, sample_size_val, sigma, 1)
 
     l = session.run(loss, feed_dict={X: X_val, y: y_val})
 
