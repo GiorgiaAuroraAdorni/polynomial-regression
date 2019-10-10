@@ -1,0 +1,195 @@
+% Use only LaTeX2e, calling the article.cls class and 12-point type.
+
+\documentclass[12pt]{article}
+
+\usepackage{scicite}
+\usepackage[utf8]{inputenc} %utf8 % lettere accentate da tastiera
+\usepackage[english]{babel} % lingua del documento
+\usepackage[T1]{fontenc} % codifica dei font
+\usepackage[backend=bibtex,sorting=none, backref=true]{biblatex}
+\usepackage{times}
+\usepackage[hidelinks]{hyperref}
+\usepackage{csquotes}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{mathtools}
+\usepackage{listings,lstautogobble}
+\usepackage{xcolor}
+
+\definecolor{gray}{gray}{0.5}
+\colorlet{commentcolour}{green!50!black}
+
+\colorlet{stringcolour}{red!60!black}
+\colorlet{keywordcolour}{blue}
+\colorlet{exceptioncolour}{yellow!50!red}
+\colorlet{commandcolour}{magenta!90!black}
+\colorlet{numpycolour}{blue!60!green}
+\colorlet{literatecolour}{magenta!90!black}
+\colorlet{promptcolour}{green!50!black}
+\colorlet{specmethodcolour}{violet}
+
+\newcommand*{\framemargin}{3ex}
+
+\newcommand*{\literatecolour}{\textcolor{literatecolour}}
+
+\newcommand*{\pythonprompt}{\textcolor{promptcolour}{{>}{>}{>}}}
+
+\lstdefinestyle{python}{
+	language=python,
+	showtabs=true,
+	tab=,
+	tabsize=4,
+	basicstyle=\ttfamily\footnotesize,
+	stringstyle=\color{stringcolour},
+	showstringspaces=false,
+	keywordstyle=\color{keywordcolour}\bfseries,
+	emph={as,and,break,class,continue,def,yield,del,elif ,else,%
+		except,exec,finally,for,from,global,if,in,%
+		lambda,not,or,pass,print,raise,return,try,while,assert,with},
+	emphstyle=\color{blue}\bfseries,
+	emph={[2]True, False, None},
+	emphstyle=[3]\color{commandcolour},
+	morecomment=[s]{"""}{"""},
+	commentstyle=\color{commentcolour}\slshape,
+	emph={array, matmul, transpose, float32},
+	emphstyle=[4]\color{numpycolour},
+	emph={[5]assert,yield},
+	emphstyle=[5]\color{keywordcolour}\bfseries,
+	emph={[6]range},
+	emphstyle={[6]\color{keywordcolour}\bfseries},
+	literate=*%
+	{:}{{\literatecolour:}}{1}%
+	{=}{{\literatecolour=}}{1}%
+	{-}{{\literatecolour-}}{1}%
+	{+}{{\literatecolour+}}{1}%
+	{*}{{\literatecolour*}}{1}%
+	{**}{{\literatecolour{**}}}2%
+	{/}{{\literatecolour/}}{1}%
+	{//}{{\literatecolour{//}}}2%
+	{!}{{\literatecolour!}}{1}%
+	{<}{{\literatecolour<}}{1}%
+	{>}{{\literatecolour>}}{1}%
+	{>>>}{\pythonprompt}{3},
+	frame=trbl,
+	rulecolor=\color{black!40},
+	backgroundcolor=\color{gray!5},
+	breakindent=.5\textwidth,
+	frame=single,
+	breaklines=true,
+	basicstyle=\ttfamily\footnotesize,%
+	keywordstyle=\color{keywordcolour},%
+	emphstyle={[7]\color{keywordcolour}},%
+	emphstyle=\color{exceptioncolour},%
+	literate=*%
+	{:}{{\literatecolour:}}{2}%
+	{=}{{\literatecolour=}}{2}%
+	{-}{{\literatecolour-}}{2}%
+	{+}{{\literatecolour+}}{2}%
+	{*}{{\literatecolour*}}2%
+	{**}{{\literatecolour{**}}}3%
+	{/}{{\literatecolour/}}{2}%
+	{//}{{\literatecolour{//}}}{2}%
+	{!}{{\literatecolour!}}{2}%
+	{<}{{\literatecolour<}}{2}%
+	{<=}{{\literatecolour{<=}}}3%
+	{>}{{\literatecolour>}}{2}%
+	{>=}{{\literatecolour{>=}}}3%
+	{==}{{\literatecolour{==}}}3%
+	{!=}{{\literatecolour{!=}}}3%
+	{+=}{{\literatecolour{+=}}}3%
+	{-=}{{\literatecolour{-=}}}3%
+	{*=}{{\literatecolour{*=}}}3%
+	{/=}{{\literatecolour{/=}}}3%
+}
+
+\lstnewenvironment{python}
+{\lstset{style=python}}
+{}
+
+\topmargin 0.0cm
+\oddsidemargin 0.2cm
+\textwidth 16cm 
+\textheight 21cm
+\footskip 1.0cm
+
+\newenvironment{sciabstract}{%
+	\begin{quote} \bf}
+	{\end{quote}}
+
+
+\renewcommand\refname{References and Notes}
+
+\newcounter{problem}
+\newcounter{solution}
+
+\newcommand\Problem{%
+	\stepcounter{problem}%
+	\textbf{\theproblem.}~%
+	\setcounter{solution}{0}%
+}
+
+\newcommand\Solution{%
+	\textbf{Solution:}\\%
+}
+
+\newcommand\ASolution{%
+	\stepcounter{solution}%
+	\textbf{Solution \solution:}\\%
+}
+
+\parindent 0in
+\parskip 1em
+
+\newcounter{lastnote}
+\newenvironment{scilastnote}{%
+	\setcounter{lastnote}{\value{enumiv}}%
+	\addtocounter{lastnote}{+1}%
+	\begin{list}%
+		{\arabic{lastnote}.}
+		{\setlength{\leftmargin}{.22in}}
+		{\setlength{\labelsep}{.5em}}}
+	{\end{list}}
+
+\title{Deep Learning Lab \\ \Large{Assignment 1: Neural Networks} \\[0.3em] \normalsize{Faculty of Informatics} \\ \normalsize{Università della Svizzera Italiana}}
+
+
+\author {{Giorgia Adorni}	\\ \normalsize{giorgia.adormi@usi.ch}}
+
+
+\date{\today}
+
+\bibliography{scibib}
+
+%%%%%%%%%%%%%%%%% END OF PREAMBLE %%%%%%%%%%%%%%%%
+
+\begin{document} 
+	
+	% Double-space the manuscript.
+	%\baselineskip24pt
+	
+	\maketitle 
+	
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
