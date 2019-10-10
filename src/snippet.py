@@ -1,5 +1,8 @@
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
+
+tf.logging.set_verbosity(tf.logging.ERROR)  # suppress warnings
 
 # More specifically, find an estimate of w∗ = [−8, −4, 2, 1]^T supposing that such vector is unknown.
 # Each xi should be in the interval [−3, 2].
@@ -27,13 +30,11 @@ def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
 
 
 def main():
-    sample_size_train = 100
-
-    sample_size_val = 100
-    n_dimensions = 10
+    sample_size = 100
+    n_dimensions = 4
     sigma = 0.5
-    n_iterations = 20
-    learning_rate = 0.5
+    n_iterations = 2000
+    learning_rate = 0.01
 
     w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
     x_range = [-3, 2]
@@ -55,7 +56,7 @@ def main():
 
     initializer = tf.global_variables_initializer()
 
-    X_train, y_train = create_dataset(w_star, x_range, sample_size_train, sigma, 0)
+    X_train, y_train = create_dataset(w_star, x_range, sample_size, sigma, 0)
 
     session = tf.Session()
     session.run(initializer)
@@ -64,7 +65,7 @@ def main():
         l, _ = session.run([loss, train], feed_dict={X: X_train, y: y_train})
         print('Iteration {0}. Loss: {1}.'.format(t, l))
 
-    X_val, y_val = create_dataset(w_star, x_range, sample_size_val, sigma, 1)
+    X_val, y_val = create_dataset(w_star, x_range, sample_size, sigma, 1)
 
     l = session.run(loss, feed_dict={X: X_val, y: y_val})
 
@@ -74,5 +75,24 @@ def main():
     session.close()
 
 
-tf.logging.set_verbosity(tf.logging.ERROR)  # suppress warnings
+sample_size = 100
+n_dimensions = 10
+sigma = 0.5
+n_iterations = 20
+learning_rate = 0.5
+
+w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
+x_range = [-3, 2]
+
+X_train, y_train = create_dataset(w_star, x_range, sample_size, sigma, 0)
+X_val, y_val = create_dataset(w_star, x_range, sample_size, sigma, 1)
+
+# Plot things...
+fig = plt.figure()
+
+plt.plot(X_train[:, 1], y_train, '.')
+plt.plot(X_val[:, 1], y_val, '.')
+
+plt.show()
+
 main()  # run the script
