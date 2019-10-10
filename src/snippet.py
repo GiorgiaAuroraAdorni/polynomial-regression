@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -30,25 +31,29 @@ def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
 
 
 def main():
+    n_iterations = 1100
     sample_size = 100
     n_dimensions = 4
     sigma = 0.5
-    n_iterations = 2000
-    learning_rate = 0.01
+
+    # Naming constants/variables to facilitate inspection
+    learning_rate = tf.constant(1e-2, dtype=tf.float32, name='learning_rate')
 
     w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
     x_range = [-3, 2]
 
     # Placeholder for the data matrix, where each observation is a row
-    X = tf.placeholder(tf.float32, shape=(None, n_dimensions))  # Placeholder for the targets
-    y = tf.placeholder(tf.float32, shape=(None,))
+    X = tf.placeholder(tf.float32, shape=(None, n_dimensions), name='X')  # Placeholder for the targets
+    y = tf.placeholder(tf.float32, shape=(None,), name='y')
 
     # Variable for the model parameters
-    w = tf.Variable(tf.zeros((n_dimensions, 1)), trainable=True)
+    w = tf.Variable(tf.zeros((n_dimensions, 1)), trainable=True, name='w')
 
     # Loss function
     prediction = tf.reshape(tf.matmul(X, w), (-1,))
     loss = tf.reduce_mean(tf.square(y - prediction))
+
+    tf.summary.scalar('loss', loss)
 
     optimizer = tf.train.GradientDescentOptimizer(learning_rate)
 
@@ -57,42 +62,44 @@ def main():
     initializer = tf.global_variables_initializer()
 
     X_train, y_train = create_dataset(w_star, x_range, sample_size, sigma, 0)
+    X_val, y_val = create_dataset(w_star, x_range, sample_size, sigma, 1)
+
+    # Plot dataset
+    #fig = plt.figure()
+
+    plt.plot(X_train[:, 1], y_train, '.')
+    plt.plot(X_val[:, 1], y_val, '.')
+
+    plt.show()
+
+    # Merges all summaries into single a operation
+    summaries = tf.summary.merge_all()
 
     session = tf.Session()
+
+    # Creating object that writes graph structure and summaries to disk
+    writer_train = tf.summary.FileWriter('tmp/train')
+    writer_validation = tf.summary.FileWriter('tmp/validation')
+
     session.run(initializer)
 
     for t in range(1, n_iterations + 1):
-        l, _ = session.run([loss, train], feed_dict={X: X_train, y: y_train})
+        s, l, _ = session.run([summaries, loss, train], feed_dict={X: X_train, y: y_train})
         print('Iteration {0}. Loss: {1}.'.format(t, l))
 
-    X_val, y_val = create_dataset(w_star, x_range, sample_size, sigma, 1)
+        # Stores the summaries for iteration t
+        writer_train.add_summary(s, t)
 
-    l = session.run(loss, feed_dict={X: X_val, y: y_val})
+        s, l = session.run([summaries, loss], feed_dict={X: X_val, y: y_val})
+        writer_validation.add_summary(s, t)
 
     print('Validation loss: {0}.'.format(l))
     print(session.run(w).reshape(-1))
 
+    writer_train.close()
+    writer_validation.close()
     session.close()
 
 
-sample_size = 100
-n_dimensions = 10
-sigma = 0.5
-n_iterations = 20
-learning_rate = 0.5
-
-w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
-x_range = [-3, 2]
-
-X_train, y_train = create_dataset(w_star, x_range, sample_size, sigma, 0)
-X_val, y_val = create_dataset(w_star, x_range, sample_size, sigma, 1)
-
-# Plot things...
-fig = plt.figure()
-
-plt.plot(X_train[:, 1], y_train, '.')
-plt.plot(X_val[:, 1], y_val, '.')
-
-plt.show()
-
-main()  # run the script
+# run the script
+main()
