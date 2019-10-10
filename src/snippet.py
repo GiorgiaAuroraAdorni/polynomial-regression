@@ -2,19 +2,21 @@ import numpy as np
 import tensorflow as tf
 
 
-def create_dataset(sample_size, n_dimensions, sigma, seed=None):
+def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
     """Create linear regression dataset (without bias term)"""
 
     random_state = np.random.RandomState(seed)
+    x = random_state.uniform(x_range[0], x_range[1], sample_size)
+    X = np.zeros((sample_size, w_star.shape[0]))
+    for i in range(sample_size):
+        X[i, 0] = 1.
+        for j in range(1, w_star.shape[0]):
+            X[i, j] =  # Incomplete
 
-    # True weight vector: np.array([1, 2, ..., n_dimensions])
-    w = np.arange(1, n_dimensions + 1)
+    y = X.dot(w_star)
 
-    # Randomly generating observations
-    X = random_state.uniform(-1, 1, (sample_size, n_dimensions))
-
-    # Computing noisy targets
-    y = np.dot(X, w) + random_state.normal(0.0, sigma, sample_size)
+    if sigma > 0:
+        y += random_state.normal (0.0, sigma, sample_size )
 
     return X, y
 
