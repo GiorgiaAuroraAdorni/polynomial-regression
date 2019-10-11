@@ -106,8 +106,13 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
     X_train, y_train = create_dataset(X.shape[1], w_star, x_range, sample_size[0], sigma, 0)
     X_val, y_val = create_dataset(X.shape[1], w_star, x_range, sample_size[1], sigma, 1)
 
-    plt.plot(X_train[:, 1], y_train, '.')
-    plt.plot(X_val[:, 1], y_val, '.')
+    plt.plot(X_train[:, 1], y_train, '.', label='Train')
+    plt.plot(X_val[:, 1], y_val, '.', label='Validation')
+
+    plt.xlabel('x', fontsize=11)
+    plt.ylabel('y', fontsize=11)
+    plt.legend(title="Legend", loc=3, fontsize=10, fancybox=True)
+    plt.title('Dataset', weight='bold', fontsize=12)
 
     plt.show()
 
@@ -144,8 +149,13 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
 
         x = np.linspace(x_range[0], x_range[1])
 
-        plt.plot(x, extract_y(x, w_star, degrees[0]))
-        plt.plot(x, extract_y(x, w_hat, degrees[1]))
+        plt.plot(x, extract_y(x, w_star, degrees[0]), label='w_star')
+        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='w_hat')
+
+        plt.xlabel('x', fontsize=11)
+        plt.ylabel('y', fontsize=11)
+        plt.legend(title="Legend", loc=3, fontsize=10, fancybox=True)
+        plt.title('Polynomial', weight='bold', fontsize=12)
 
         plt.show()
 
