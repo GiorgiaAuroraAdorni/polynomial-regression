@@ -1,3 +1,4 @@
+import os
 import datetime
 import numpy as np
 import tensorflow as tf
@@ -86,7 +87,7 @@ def net_vars(n_dimensions, learning_rate):
     return initializer, summaries, X, y, w, loss, train
 
 
-def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=None):
+def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_directory, degrees=None):
     """
 
     :param net_vars:
@@ -114,14 +115,14 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
     plt.legend(fontsize=10, fancybox=True)
     plt.title('Dataset', weight='bold', fontsize=12)
 
+    plt.savefig(plot_directory + '-dataset', )
     plt.show()
 
     with tf.Session() as session:
         # Creating object that writes graph structure and summaries to disk
-        # FIXME model name
-        current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        train_log_dir = 'tmp/train' + current_time
-        test_log_dir = 'tmp/validation' + current_time
+        # current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        train_log_dir = 'tmp/train' + plot_directory.replace('img/', '')
+        test_log_dir = 'tmp/validation' + plot_directory.replace('img/', '')
         writer_train = tf.summary.FileWriter(train_log_dir, session.graph)
         writer_validation = tf.summary.FileWriter(test_log_dir, session.graph)
 
@@ -157,6 +158,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
         plt.legend(fontsize=10, fancybox=True)
         plt.title('Polynomial', weight='bold', fontsize=12)
 
+        plt.savefig(plot_directory + '-polynomial')
         plt.show()
 
         session.close()
@@ -177,33 +179,37 @@ net_vars1 = net_vars(n_dimensions, learning_rate)
 w_star = np.array([-8, -4, 2, 1], dtype=np.float32)
 x_range = [-3, 2]
 
+plot_directory = "img/"
+if not os.path.isdir(plot_directory):
+    os.mkdir(plot_directory)
+
 # run the script
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1')
 
 
 ### Change the training dataset size to 50, 10, and 5 observations
 
 sample_size = [50, 100]  # [train, validation]
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model2')
 
 sample_size = [10, 100]  # [train, validation]
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model3')
 
 sample_size = [5, 100]  # [train, validation]
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model4')
 
 
 ### Document what happens when σ is increased to 2, 4, and 8
 sample_size = [100, 100]  # reset sample size
 
 sigma = 2
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model5')
 
 sigma = 4
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model6')
 
 sigma = 8
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model7')
 
 
 ### Reduce your training dataset to 10 observations, and compare fitting a polynomial of degree three (as before)
@@ -217,5 +223,5 @@ degrees = [3, 4]
 n_dimensions = 5
 net_vars1 = net_vars(n_dimensions, learning_rate)
 
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, degrees)
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model8', degrees)
 
