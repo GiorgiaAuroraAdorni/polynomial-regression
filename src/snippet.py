@@ -18,19 +18,13 @@ def create_dataset(shape, w_star, x_range, sample_size, sigma, seed=None):
     """
     random_state = np.random.RandomState(seed)
     x = random_state.uniform(x_range[0], x_range[1], sample_size)
-    X = np.zeros((sample_size, shape))
-    for i in range(sample_size):
-        X[i, 0] = 1.
-        for j in range(1, shape):
-            X[i, j] = x[i] ** j
+    X_three = extract_feature_map(x, w_star.shape[0] - 1)
+    X = extract_feature_map(x, shape - 1)
 
-    if shape > 4:
-        w_star = np.append(w_star, 0)
-
-    y = X.dot(w_star)
+    y = X_three.dot(w_star)
 
     if sigma > 0:
-        y += random_state.normal(0.0, sigma, sample_size )
+        y += random_state.normal(0.0, sigma, sample_size)
 
     return X, y
 
@@ -59,27 +53,35 @@ def extract_y(x, coefficients, degree):
 
 
 def net_vars(n_dimensions, learning_rate):
-    # Placeholder for the data matrix, where each observation is a row
-    X = tf.placeholder(tf.float32, shape=(None, n_dimensions), name='xx')
-    y = tf.placeholder(tf.float32, shape=(None,), name='yy')
+    """
 
-    # Variable for the model parameters
-    w = tf.Variable(tf.zeros((n_dimensions, 1)), trainable=True, name='weights')
+    :param n_dimensions:
+    :param learning_rate:
+    :return:
+    """
 
-    # Loss function
-    prediction = tf.reshape(tf.matmul(X, w), (-1,))
-    loss = tf.reduce_mean(tf.square(y - prediction))
+    with tf.variable_scope("model_{}".format(n_dimensions)):
+        # Placeholder for the data matrix, where each observation is a row
+        X = tf.placeholder(tf.float32, shape=(None, n_dimensions), name='xx')
+        y = tf.placeholder(tf.float32, shape=(None,), name='yy')
 
-    tf.summary.scalar('loss', loss)
+        # Variable for the model parameters
+        w = tf.Variable(tf.zeros((n_dimensions, 1)), trainable=True, name='weights')
 
-    # Gradient descent update operation
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate)
-    train = optimizer.minimize(loss)
+        # Loss function
+        prediction = tf.reshape(tf.matmul(X, w), (-1,))
+        loss = tf.reduce_mean(tf.square(y - prediction))
 
-    initializer = tf.global_variables_initializer()
+        s_loss = tf.summary.scalar('loss', loss)
 
-    # Merges all summaries into single a operation
-    summaries = tf.summary.merge_all()
+        # Gradient descent update operation
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+        train = optimizer.minimize(loss)
+
+        initializer = tf.variables_initializer([w])
+
+        # Merges all summaries into single a operation
+        summaries = tf.summary.merge([s_loss])
 
     return initializer, summaries, X, y, w, loss, train
 
@@ -93,8 +95,8 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
     :param sigma:
     :param w_star:
     :param x_range:
+    :param degrees:
     """
-
     if degrees is None:
         degrees = [3, 3]
 
@@ -110,8 +112,8 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
     plt.show()
 
     with tf.Session() as session:
-
         # Creating object that writes graph structure and summaries to disk
+        # FIXME model name
         current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         train_log_dir = 'tmp/train' + current_time
         test_log_dir = 'tmp/validation' + current_time
@@ -143,13 +145,16 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
         x = np.linspace(x_range[0], x_range[1])
 
         plt.plot(x, extract_y(x, w_star, degrees[0]))
-        plt.plot(x, extract_y(x, w_hat, degrees[0]))
+        plt.plot(x, extract_y(x, w_hat, degrees[1]))
 
         plt.show()
 
         session.close()
 
+
+
 ################################################################################
+
 
 n_iterations = 1100
 sample_size = [100, 100]  # [train, validation]
@@ -195,14 +200,13 @@ main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range)
 ### Reduce your training dataset to 10 observations, and compare fitting a polynomial of degree three (as before)
 # with fitting a polynomial of degree four (which does not match the underlying polynomial p).
 # Plot the resulting polynomials and document the validation loss.
-# sample_size = [10, 100]  # [train, validation]
-# sigma = 0.5
-# degrees = [3, 4]
-#
-# n_dimensions = [degrees[1], degrees[1] + 1]
-#
-# # Naming constants/variables to facilitate inspection
-# net_vars2 = net_vars(n_dimensions, learning_rate)
-#
-# main(net_vars2, n_iterations, sample_size, sigma, w_star, x_range, degrees)
-#
+
+sample_size = [10, 100]  # [train, validation]
+sigma = 0.5
+degrees = [3, 4]
+
+n_dimensions = 5
+net_vars1 = net_vars(n_dimensions, learning_rate)
+
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, degrees)
+
