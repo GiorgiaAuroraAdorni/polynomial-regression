@@ -111,7 +111,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
 
     plt.xlabel('x', fontsize=11)
     plt.ylabel('y', fontsize=11)
-    plt.legend(title="Legend", loc=3, fontsize=10, fancybox=True)
+    plt.legend(fontsize=10, fancybox=True)
     plt.title('Dataset', weight='bold', fontsize=12)
 
     plt.show()
@@ -149,18 +149,17 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, degrees=No
 
         x = np.linspace(x_range[0], x_range[1])
 
-        plt.plot(x, extract_y(x, w_star, degrees[0]), label='w_star')
-        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='w_hat')
+        plt.plot(x, extract_y(x, w_star, degrees[0]), label='Weights')
+        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='Estimated weights')
 
         plt.xlabel('x', fontsize=11)
         plt.ylabel('y', fontsize=11)
-        plt.legend(title="Legend", loc=3, fontsize=10, fancybox=True)
+        plt.legend(fontsize=10, fancybox=True)
         plt.title('Polynomial', weight='bold', fontsize=12)
 
         plt.show()
 
         session.close()
-
 
 
 ################################################################################
