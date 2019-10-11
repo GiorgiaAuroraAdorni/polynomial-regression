@@ -5,15 +5,17 @@ import matplotlib.pyplot as plt
 
 tf.logging.set_verbosity(tf.logging.ERROR)  # suppress warnings
 
-# More specifically, find an estimate of w∗ = [−8, −4, 2, 1]^T supposing that such vector is unknown.
-# Each xi should be in the interval [−3, 2].
-# Use a sample of size 100 created with a seed of 0 for training, and a sample of size 100 created with a seed of 1
-# for validation. Let σ = 1/2.
-
 
 def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
-    """Create linear regression dataset (without bias term)"""
-
+    """
+    Create linear regression dataset
+    :param w_star: polynomial coefficients
+    :param x_range: interval in which x should be
+    :param sample_size: the number of elements in the dataset
+    :param sigma: standard deviation
+    :param seed:
+    :return: X, y that are two np.arrays containing the coordinates of the points of the dataset
+    """
     random_state = np.random.RandomState(seed)
     x = random_state.uniform(x_range[0], x_range[1], sample_size)
     X = np.zeros((sample_size, w_star.shape[0]))
@@ -30,7 +32,39 @@ def create_dataset(w_star, x_range, sample_size, sigma, seed=None):
     return X, y
 
 
+def extract_feature_map(x, degree=3):
+    """
+    :param x: base number raised to the first "degree" powers
+    :param degree: exponents
+    :return: a matrix containing the first 'degree' powers of 'x'
+    """
+    f = np.zeros([x.shape[0], degree + 1])
+
+    for d in range(degree + 1):
+        f[:, d] = x ** d
+    return f
+
+
+def extract_y(x, coefficients):
+    """
+    :param x: a matrix containing in each row the first 'degree' powers of a random number in the interval [-3, 2]
+    :param coefficients: vector of coefficients w_star' (in ascending order: from x**0 to x**n)
+    :return: value of y that satisfy the polynomial given 'x' and 'coefficients'
+    """
+    y = np.matmul(extract_feature_map(x, 3), coefficients)
+    return y
+
+
 def main(n_iterations, sample_size, n_dimensions, sigma, learning_rate, w_star, x_range):
+    """
+    :param n_iterations:
+    :param sample_size:
+    :param n_dimensions:
+    :param sigma:
+    :param learning_rate:
+    :param w_star:
+    :param x_range:
+    """
     # Placeholder for the data matrix, where each observation is a row
     X = tf.placeholder(tf.float32, shape=(None, n_dimensions), name='X')  # Placeholder for the targets
     y = tf.placeholder(tf.float32, shape=(None,), name='y')
@@ -87,8 +121,9 @@ def main(n_iterations, sample_size, n_dimensions, sigma, learning_rate, w_star, 
     writer_train.close()
     writer_validation.close()
 
-    # Plot polynom
+    # Find w_hat, that is an estimate of w_star, and plot the original polynomial and the estimated one
     w_hat = session.run(w)
+
     x = np.linspace(x_range[0], x_range[1])
 
     plt.plot(x, extract_y(x, w_star))
@@ -98,29 +133,11 @@ def main(n_iterations, sample_size, n_dimensions, sigma, learning_rate, w_star, 
 
     session.close()
 
-
-def extract_feature_map(x, degree=3):
-    f = np.zeros([x.shape[0], degree + 1])
-
-    for d in range(degree + 1):
-        f[:, d] = x ** d
-    return f
-
-
-def extract_y(x, coefficients):
-    """ Returns a polynomial for ``x`` values for the ``coeffs`` provided.
-
-    The coefficients must be in ascending order (``x**0`` to ``x**o``).
-    """
-    y = np.matmul(extract_feature_map(x, 3), coefficients)
-    return y
-
-
 ################################################################################
 
 
 n_iterations = 1100
-sample_size = [100, 100]  # [train, validatioon]
+sample_size = [100, 100]  # [train, validation]
 n_dimensions = 4
 sigma = 0.5
 
