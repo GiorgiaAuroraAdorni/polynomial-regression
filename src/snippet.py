@@ -87,7 +87,7 @@ def net_vars(n_dimensions, learning_rate):
     return initializer, summaries, X, y, w, loss, train
 
 
-def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_directory, degrees=None):
+def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_directory, degrees=None, early_stopping=False):
     """
 
     :param net_vars:
@@ -129,6 +129,10 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
         session.run(initializer)
 
         validation_loss = 0
+        if early_stopping:
+            best_validation_loss = np.inf
+            best_epoch = -1
+
         for t in range(1, n_iterations + 1):
             s, train_loss, _ = session.run([summaries, loss, train], feed_dict={X: X_train, y: y_train})
             print('Iteration {0}. Loss: {1}.'.format(t, train_loss))
@@ -140,12 +144,24 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
             s, validation_loss = session.run([summaries, loss], feed_dict={X: X_val, y: y_val})
             writer_validation.add_summary(s, t)
 
+            if early_stopping:
+                if validation_loss < best_validation_loss:
+                    best_validation_loss = validation_loss
+                    best_epoch = t
+                else:
+                    if t - best_epoch > 10:
+                        break
+
+        if early_stopping:
+            f.write("The best loss of %.5f is reached after %d iterations.\n" % (
+                best_validation_loss, best_epoch))
+
         print('Validation loss: {0}.'.format(validation_loss))
         f.write('Validation loss: {0}.\n'.format(validation_loss))
 
         weights = session.run(w).reshape(-1)
         print(weights)
-        f.write(str(weights))
+        f.write('weights: ' + str(weights))
 
         writer_train.close()
         writer_validation.close()
@@ -172,7 +188,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
 ################################################################################
 
 
-n_iterations = 1100
+n_iterations = 3000
 sample_size = [100, 100]  # [train, validation]
 n_dimensions = 4
 sigma = 0.5
@@ -192,9 +208,16 @@ out_directory = "out/"
 if not os.path.isdir(out_directory):
     os.mkdir(out_directory)
 
-# run the script
+# Run the script with 3000 iterations with the early stopping for choosing the number of iterations
+f = open(out_directory + "model1-es.txt", "w")
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1-es', early_stopping=True)
+f.close()
+
+# Change the number of iterations
+n_iterations = 1248
+
 f = open(out_directory + "model1.txt", "w")
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1')
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1', early_stopping=True)
 f.close()
 
 ### Change the training dataset size to 50, 10, and 5 observations
