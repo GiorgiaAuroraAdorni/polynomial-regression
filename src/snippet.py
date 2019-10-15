@@ -1,5 +1,5 @@
 import os
-import datetime
+import sys
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -132,6 +132,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
         for t in range(1, n_iterations + 1):
             s, train_loss, _ = session.run([summaries, loss, train], feed_dict={X: X_train, y: y_train})
             print('Iteration {0}. Loss: {1}.'.format(t, train_loss))
+            f.write('Iteration {0}. Loss: {1}.\n'.format(t, train_loss))
 
             # Stores the summaries for iteration t
             writer_train.add_summary(s, t)
@@ -140,7 +141,11 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
             writer_validation.add_summary(s, t)
 
         print('Validation loss: {0}.'.format(validation_loss))
-        print(session.run(w).reshape(-1))
+        f.write('Validation loss: {0}.\n'.format(validation_loss))
+
+        weights = session.run(w).reshape(-1)
+        print(weights)
+        f.write(str(weights))
 
         writer_train.close()
         writer_validation.close()
@@ -183,39 +188,54 @@ plot_directory = "img/"
 if not os.path.isdir(plot_directory):
     os.mkdir(plot_directory)
 
-# run the script
-main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1')
+out_directory = "out/"
+if not os.path.isdir(out_directory):
+    os.mkdir(out_directory)
 
+# run the script
+f = open(out_directory + "model1.txt", "w")
+main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model1')
+f.close()
 
 ### Change the training dataset size to 50, 10, and 5 observations
 
+f = open(out_directory + "model2.txt", "w")
 sample_size = [50, 100]  # [train, validation]
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model2')
+f.close()
 
+f = open(out_directory + "model3.txt", "w")
 sample_size = [10, 100]  # [train, validation]
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model3')
+f.close()
 
+f = open(out_directory + "model4.txt", "w")
 sample_size = [5, 100]  # [train, validation]
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model4')
-
+f.close()
 
 ### Document what happens when σ is increased to 2, 4, and 8
 sample_size = [100, 100]  # reset sample size
 
+f = open(out_directory + "model5.txt", "w")
 sigma = 2
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model5')
+f.close()
 
+f = open(out_directory + "model6.txt", "w")
 sigma = 4
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model6')
+f.close()
 
+f = open(out_directory + "model7.txt", "w")
 sigma = 8
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model7')
-
+f.close()
 
 ### Reduce your training dataset to 10 observations, and compare fitting a polynomial of degree three (as before)
 # with fitting a polynomial of degree four (which does not match the underlying polynomial p).
 # Plot the resulting polynomials and document the validation loss.
-
+f = open(out_directory + "model8.txt", "w")
 sample_size = [10, 100]  # [train, validation]
 sigma = 0.5
 degrees = [3, 4]
@@ -224,4 +244,4 @@ n_dimensions = 5
 net_vars1 = net_vars(n_dimensions, learning_rate)
 
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model8', degrees)
-
+f.close()
