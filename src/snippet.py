@@ -188,7 +188,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
 ################################################################################
 
 
-n_iterations = 3000
+n_iterations = 2000
 sample_size = [100, 100]  # [train, validation]
 n_dimensions = 4
 sigma = 0.5
