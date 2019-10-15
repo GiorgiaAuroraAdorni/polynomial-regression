@@ -131,7 +131,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
         validation_loss = 0
         if early_stopping:
             best_validation_loss = np.inf
-            best_epoch = -1
+            best_iteration = -1
 
         for t in range(1, n_iterations + 1):
             s, train_loss, _ = session.run([summaries, loss, train], feed_dict={X: X_train, y: y_train})
@@ -147,14 +147,14 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
             if early_stopping:
                 if validation_loss < best_validation_loss:
                     best_validation_loss = validation_loss
-                    best_epoch = t
+                    best_iteration = t
                 else:
-                    if t - best_epoch > 10:
+                    if t - best_iteration > 10:
                         break
 
         if early_stopping:
             f.write("The best loss of %.5f is reached after %d iterations.\n" % (
-                best_validation_loss, best_epoch))
+                best_validation_loss, best_iteration))
 
         print('Validation loss: {0}.'.format(validation_loss))
         f.write('Validation loss: {0}.\n'.format(validation_loss))
