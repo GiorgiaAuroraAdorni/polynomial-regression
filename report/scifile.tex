@@ -187,8 +187,16 @@
 	Such data generation and expansion is partially illustrated in the code presented below.
 	
 	
-	\begin{figure}
-		\begin{minipage}[c]{.5\textwidth}
+	\section{Tuning the learning rate}
+	The learning rate is a configurable hyper-parameter that represent the positive amount of which weights are updated during the training of a neural network.\\
+	I tried to discover a suitable learning rate via trial, setting the initial number of iterations to $2000$.
+	In the first test I set the learning rate to a traditional default value of $0.1$. In this case, the value is too high that the algorithm diverges.\\
+	Hence, I choose to decrease the value to $0.01$ obtaining a validation loss of $0.22$, that is a good results for the gradient descent.
+		
+	\section{Iterations and early stopping}
+	Fixed the learning rate, I decided to use the \textbf{early stopping} rule in order to abort the training procedure when the performance on the validation set stops to improving and therefore avoid over-fitting. \\
+	In particular, I measured the validation loss in each iteration, keeping track of the lowest one, and I stopped the training when the validation loss has not improved, compared to the best, after $10$ steps.\\
+	In this examining case, after $1248$ iterations the model reach the best loss of $0.2177$.
 		\centering
 		\includegraphics[width=1\linewidth]{../src/img/model1-dataset.png}
 		\captionof{figure}{model1-dataset}
