@@ -1,181 +1,73 @@
-% Use only LaTeX2e, calling the article.cls class and 12-point type.
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
 
-\documentclass[12pt]{article}
-
-\usepackage{scicite}
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
 \usepackage[utf8]{inputenc} %utf8 % lettere accentate da tastiera
 \usepackage[english]{babel} % lingua del documento
 \usepackage[T1]{fontenc} % codifica dei font
-\usepackage[backend=bibtex,sorting=none, backref=true]{biblatex}
-\usepackage{times}
-\usepackage[hidelinks]{hyperref}
-\usepackage{csquotes}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{subfigure}
-\usepackage{caption}
-\usepackage{mathtools}
-\usepackage{listings,lstautogobble}
-\usepackage{xcolor}
+
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+\usepackage{graphicx} 
+
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+
 \usepackage{float}
 
-\definecolor{gray}{gray}{0.5}
-\colorlet{commentcolour}{green!50!black}
+\usepackage{fancyhdr}
 
-\colorlet{stringcolour}{red!60!black}
-\colorlet{keywordcolour}{blue}
-\colorlet{exceptioncolour}{yellow!50!red}
-\colorlet{commandcolour}{magenta!90!black}
-\colorlet{numpycolour}{blue!60!green}
-\colorlet{literatecolour}{magenta!90!black}
-\colorlet{promptcolour}{green!50!black}
-\colorlet{specmethodcolour}{violet}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
 
-\newcommand*{\framemargin}{3ex}
+\usepackage[hidelinks]{hyperref}
+\usepackage{csquotes}
+\usepackage{subfigure}
 
-\newcommand*{\literatecolour}{\textcolor{literatecolour}}
+\pagestyle{fancy}
 
-\newcommand*{\pythonprompt}{\textcolor{promptcolour}{{>}{>}{>}}}
+\fancyhf{}
 
-\lstdefinestyle{python}{
-	language=python,
-	showtabs=true,
-	tab=,
-	tabsize=4,
-	basicstyle=\ttfamily\footnotesize,
-	stringstyle=\color{stringcolour},
-	showstringspaces=false,
-	keywordstyle=\color{keywordcolour}\bfseries,
-	emph={as,and,break,class,continue,def,yield,del,elif ,else,%
-		except,exec,finally,for,from,global,if,in,%
-		lambda,not,or,pass,print,raise,return,try,while,assert,with},
-	emphstyle=\color{blue}\bfseries,
-	emph={[2]True, False, None},
-	emphstyle=[3]\color{commandcolour},
-	morecomment=[s]{"""}{"""},
-	commentstyle=\color{commentcolour}\slshape,
-	emph={array, matmul, transpose, float32},
-	emphstyle=[4]\color{numpycolour},
-	emph={[5]assert,yield},
-	emphstyle=[5]\color{keywordcolour}\bfseries,
-	emph={[6]range},
-	emphstyle={[6]\color{keywordcolour}\bfseries},
-	literate=*%
-	{:}{{\literatecolour:}}{1}%
-	{=}{{\literatecolour=}}{1}%
-	{-}{{\literatecolour-}}{1}%
-	{+}{{\literatecolour+}}{1}%
-	{*}{{\literatecolour*}}{1}%
-	{**}{{\literatecolour{**}}}2%
-	{/}{{\literatecolour/}}{1}%
-	{//}{{\literatecolour{//}}}2%
-	{!}{{\literatecolour!}}{1}%
-	{<}{{\literatecolour<}}{1}%
-	{>}{{\literatecolour>}}{1}%
-	{>>>}{\pythonprompt}{3},
-	frame=trbl,
-	rulecolor=\color{black!40},
-	backgroundcolor=\color{gray!5},
-	breakindent=.5\textwidth,
-	frame=single,
-	breaklines=true,
-	basicstyle=\ttfamily\footnotesize,%
-	keywordstyle=\color{keywordcolour},%
-	emphstyle={[7]\color{keywordcolour}},%
-	emphstyle=\color{exceptioncolour},%
-	literate=*%
-	{:}{{\literatecolour:}}{2}%
-	{=}{{\literatecolour=}}{2}%
-	{-}{{\literatecolour-}}{2}%
-	{+}{{\literatecolour+}}{2}%
-	{*}{{\literatecolour*}}2%
-	{**}{{\literatecolour{**}}}3%
-	{/}{{\literatecolour/}}{2}%
-	{//}{{\literatecolour{//}}}{2}%
-	{!}{{\literatecolour!}}{2}%
-	{<}{{\literatecolour<}}{2}%
-	{<=}{{\literatecolour{<=}}}3%
-	{>}{{\literatecolour>}}{2}%
-	{>=}{{\literatecolour{>=}}}3%
-	{==}{{\literatecolour{==}}}3%
-	{!=}{{\literatecolour{!=}}}3%
-	{+=}{{\literatecolour{+=}}}3%
-	{-=}{{\literatecolour{-=}}}3%
-	{*=}{{\literatecolour{*=}}}3%
-	{/=}{{\literatecolour{/=}}}3%
-}
+\lhead{\footnotesize Deep Learning Lab: Assigment 1}
 
-\lstnewenvironment{python}
-{\lstset{style=python}}
-{}
+\rhead{\footnotesize Giorgia Adorni)}
 
-\topmargin 0.0cm
-\oddsidemargin 0.2cm
-\textwidth 16cm 
-\textheight 21cm
-\footskip 1.0cm
+\cfoot{\footnotesize \thepage} 
 
-\newenvironment{sciabstract}{%
-	\begin{quote} \bf}
-	{\end{quote}}
-
-
-\renewcommand\refname{References and Notes}
-
-\newcounter{problem}
-\newcounter{solution}
-
-\newcommand\Problem{%
-	\stepcounter{problem}%
-	\textbf{\theproblem.}~%
-	\setcounter{solution}{0}%
-}
-
-\newcommand\Solution{%
-	\textbf{Solution:}\\%
-}
-
-\newcommand\ASolution{%
-	\stepcounter{solution}%
-	\textbf{Solution \solution:}\\%
-}
-
-\parindent 0in
-\parskip 1em
-
-\newcounter{lastnote}
-\newenvironment{scilastnote}{%
-	\setcounter{lastnote}{\value{enumiv}}%
-	\addtocounter{lastnote}{+1}%
-	\begin{list}%
-		{\arabic{lastnote}.}
-		{\setlength{\leftmargin}{.22in}}
-		{\setlength{\labelsep}{.5em}}}
-	{\end{list}}
-
-\title{Deep Learning Lab \\ \Large{Assignment 1: Neural Networks} \\[0.3em] \normalsize{Faculty of Informatics} \\ \normalsize{Università della Svizzera Italiana}}
-
-
-\author {{Giorgia Adorni}	\\ \normalsize{giorgia.adorni@usi.ch}}
-
-
-\date{\today}
-
-\bibliography{scibib}
-
-%%%%%%%%%%%%%%%%% END OF PREAMBLE %%%%%%%%%%%%%%%%
-
-\begin{document} 
+\begin{document}
 	
-	% Double-space the manuscript.
-	%\baselineskip24pt
+
+	\thispagestyle{empty}  
 	
-	\maketitle 
+	\begin{tabular}{p{15.5cm}} 
+		{\large \bf Deep Learning Lab} \\
+		Università della Svizzera Italiana \\ Faculty of Informatics \\ \today  \\
+		\hline
+		\\
+	\end{tabular} 
+	
+	\vspace*{0.3cm} 
+	
+	\begin{center}
+		{\Large \bf Assignment 1: Neural Networks}
+		\vspace{2mm}
+		
+		{\bf Giorgia Adorni (giorgia.adorni@usi.ch)}
+		
+	\end{center}  
+	
+	\vspace{0.4cm}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	% Up until this point you only have to make minor changes for every week (Number of the homework). Your write up essentially starts here.
 	
 	Consider the polynomial $p$ given by
 	\begin{equation*}
-	 p(x)=x^3+2x^2-4x-8=\sum_{i=1}^4 w_i^*x^{i-1} \mbox{,}
+	p(x)=x^3+2x^2-4x-8=\sum_{i=1}^4 w_i^*x^{i-1} \mbox{,}
 	\end{equation*} 
 	
 	where $\textbf{w}^*=[-8,-4,2,1]^T$.
@@ -195,7 +87,7 @@
 	I tried to discover a suitable learning rate via trial, setting the initial number of iterations to $2000$.
 	In the first test I set the learning rate to a traditional default value of $0.1$. In this case, the value is too high that the algorithm diverges.\\
 	Hence, I choose to decrease the value to $0.01$ obtaining a validation loss of $0.22$, that is a good results for the gradient descent.
-		
+	
 	\section{Iterations and early stopping}
 	Fixed the learning rate, I decided to use the \textbf{early stopping} rule in order to abort the training procedure when the performance on the validation set stops to improving and therefore avoid over-fitting. \\
 	In particular, I measured the validation loss in each iteration, keeping track of the lowest one, and I stopped the training when the validation loss has not improved, compared to the best, after $10$ steps.\\
@@ -204,28 +96,51 @@
 	\section{Loss}
 	
 	I used {TensorBoard} to display the loss curves as functions of the gradient descent iterations, for both the training and validation set (over time (iterations)), which are shown in the Figure \ref{fig:model1-loss}.
-
+	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../src/img/model1-es-loss-label.jpg}
+		\includegraphics[width=0.5\linewidth]{../src/img/loss/model1-es-loss-label.jpg}
 		\captionof{figure}{model1-loss}
 		\label{fig:model1-loss}
 	\end{figure}
-	 
-	The two training and validation curves start at $29.69$ and $29.10$ respectively, and go down to $0.24$ and $0.22$ at the $1248th$ iteration.
+	
+	The two training and validation curves start at $29.69$ and $29.10$ respectively, and go down to $0.24$ and $0.22$ at the $1248\mathrm{th}$ iteration.
 	It is therefore seen that the validation loss is lower than the training loss. The reason why this happens is that the training loss is measured during each epoch while validation loss is computed at the end of the learning phase of the same epoch.
-
-		\end{minipage}
-		~
-		\begin{minipage}[c]{.5\textwidth}
-			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model1-polynomial.png}
-			\captionof{figure}{model1-polynomial}
-			\label{fig:model1-polynomial}
-		\end{minipage}
+	
+	\section{Polynomial defined by w\_star and the polynomial defined by your estimate w\_hat} 
+	Considered the polynomial defined by $\textbf{w}^*=[-8,-4,2,1]^T$, in the Figure \ref{fig:model1-dataset} are visualised the training and the validation datasets. 
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{../src/img/model1-dataset.png}
+		\captionof{figure}{model1-dataset}
+		\label{fig:model1-dataset}
 	\end{figure}
-
-		\begin{figure}
+	
+	Since the .... the polynomial defined by $\textbf{w}^*$ and the polynomial estimated $\hat{\textbf{w}}$ are very close, as we can see in the Figure \ref{fig:model1-polynomial}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{../src/img/model1-polynomial.png}
+		\captionof{figure}{model1-polynomial}
+		\label{fig:model1-polynomial}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\linewidth]{../src/img/model1-polynomial+dataset.png}
+		\captionof{figure}{model1-polynomial+dataset}
+		\label{fig:model1-polynomial+dataset}
+	\end{figure}
+	
+	to visualize 
+	to plot
+	
+	\section{Experiment: training set reduction}
+	
+	Document what happens when the training dataset is reduced to 50, 10, and 5 observations
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model2-dataset.png}
@@ -240,8 +155,8 @@
 			\label{fig:model2-polynomial}
 		\end{minipage}
 	\end{figure}
-
-		\begin{figure}
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model3-dataset.png}
@@ -256,8 +171,8 @@
 			\label{fig:model3-polynomial}
 		\end{minipage}
 	\end{figure}
-
-		\begin{figure}
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model4-dataset.png}
@@ -272,8 +187,12 @@
 			\label{fig:model4-polynomial}
 		\end{minipage}
 	\end{figure}
-
-		\begin{figure}
+	
+	\section{Experiment: sigma increasing}
+	
+	Document what happens when $\sigma$ is increased to 2, 4 and 8
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model5-dataset.png}
@@ -288,8 +207,8 @@
 			\label{fig:model5-polynomial}
 		\end{minipage}
 	\end{figure}
-
-		\begin{figure}
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model6-dataset.png}
@@ -304,8 +223,8 @@
 			\label{fig:model6-polynomial}
 		\end{minipage}
 	\end{figure}
-
-		\begin{figure}
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model7-dataset.png}
@@ -320,8 +239,12 @@
 			\label{fig:model7-polynomial}
 		\end{minipage}
 	\end{figure}
-
-	\begin{figure}
+	
+	
+	\section{Experiment: polynomial of degree four}
+	Reduce your training dataset to 10 observations, and compare fitting a polynomial of degree three (as before) with fitting a polynomial of degree four (which does not match the underlying polynomial p). Plot the resulting polynomials and document the validation loss.
+	
+	\begin{figure}[H]
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model8-dataset.png}
@@ -336,26 +259,6 @@
 			\label{fig:model8-polynomial}
 		\end{minipage}
 	\end{figure}
-
+	
 	
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
