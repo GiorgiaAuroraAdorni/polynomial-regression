@@ -104,14 +104,13 @@
 	\section{Loss}
 	%FIXME
 	I used {TensorBoard} to display the loss curve as function of the gradient 
-	descent iterations, for both the 
-	training and validation set (over time (iterations)), which are shown in 
-	the Figure \ref{fig:model1-loss}.
+	descent iterations, for both the training and validation set (over time 
+	(iterations)), which are shown in the Figure \ref{fig:model1-loss}.
 	
-	\begin{figure}[ht]
+	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../src/img/loss/model1-es-loss.jpg}
-		\captionof{figure}{model1-loss}
+		\includegraphics[width=0.65\linewidth]{../src/img/loss/model1-es-loss.jpg}
+		\captionof{figure}{Training and validation loss}
 		\label{fig:model1-loss}
 	\end{figure}
 	
@@ -129,14 +128,14 @@
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model1-dataset.png}
-			\captionof{figure}{model1-dataset}
+			\caption{Training and validation dataset}
 			\label{fig:model1-dataset}
 		\end{minipage}
 		~
 		\begin{minipage}[c]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model1-polynomial.png}
-			\captionof{figure}{model1-polynomial}
+			\caption{Actual and estimated polynomial}
 			\label{fig:model1-polynomial}
 		\end{minipage}
 	\end{figure}
@@ -149,7 +148,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.8\linewidth]{../src/img/model1-polynomial+dataset.png}
-		\captionof{figure}{model1-polynomial+dataset}
+		\caption{Polynomial curves and datasets}
 		\label{fig:model1-polynomial+dataset}
 	\end{figure}
 	
@@ -161,52 +160,57 @@
 	reducing the number of samples down to $5$ the algorithm diverges.
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model2-loss.jpg}
-			\captionof{figure}{model2-loss}
-			\label{fig:model2-loss}
+			%\caption*{model2-loss}
+			%\label{fig:model2-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model2-polynomial+dataset.png}
-			\captionof{figure}{model2-polynomial+dataset}
-			\label{fig:model2-polynomial+dataset}
+			%\caption*{model2-polynomial+dataset}
+			%\label{fig:model2-polynomial+dataset}
 		\end{minipage}
-	\caption{Training set 50}
+	\caption{Loss and polynomial curve for training dataset with $50$ 
+	observations}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model3-loss.jpg}
-			\captionof{figure}{model3-loss}
-			\label{fig:model3-loss}
+			%\caption*{model3-loss}
+			%\label{fig:model3-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model3-polynomial+dataset.png}
-			\captionof{figure}{model3-polynomial+dataset}
-			\label{fig:model3-polynomial+dataset}
+			%\caption*{model3-polynomial+dataset}
+			%\label{fig:model3-polynomial+dataset}
 		\end{minipage}
+	\caption{Loss and polynomial curve for training dataset with $10$ 
+		observations}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model4-loss.jpg}
-			\captionof{figure}{model4-loss}
-			\label{fig:model4-loss}
+			%\caption*{model4-loss}
+			%\label{fig:model4-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model4-polynomial+dataset.png}
-			\captionof{figure}{model4-polynomial+dataset}
-			\label{fig:model4-polynomial+dataset}
+			%\caption*{model4-polynomial+dataset}
+			%\label{fig:model4-polynomial+dataset}
 		\end{minipage}
+	\caption{Loss and polynomial curve for training dataset with $5$ 
+	observations}
 	\end{figure}
 	
 	\section{Sigma Increase}
@@ -219,51 +223,54 @@
 	observations in the training set.
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model5-loss.jpg}
-			\captionof{figure}{model5-loss}
-			\label{fig:model5-loss}
+			%\caption*{model5-loss}
+			%\label{fig:model5-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model5-polynomial+dataset.png}
-			\captionof{figure}{model5-polynomial+dataset}
-			\label{fig:model5-polynomial+dataset}
+			%\caption*{model5-polynomial+dataset}
+			%\label{fig:model5-polynomial+dataset}
 		\end{minipage}
+		\caption{Loss and polynomial curve for training dataset with sigma $2$}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model6-loss.jpg}
-			\captionof{figure}{model6-loss}
-			\label{fig:model6-loss}
+			%\caption*{model6-loss}
+			%\label{fig:model6-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model6-polynomial+dataset.png}
-			\captionof{figure}{model6-polynomial+dataset}
-			\label{fig:model6-polynomial+dataset}
+			%\caption*{model6-polynomial+dataset}
+			%\label{fig:model6-polynomial+dataset}
 		\end{minipage}
+	\caption{Loss and polynomial curve for training dataset with sigma $4$}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model7-loss.jpg}
-			\captionof{figure}{model7-loss}
-			\label{fig:model7-loss}
+			%\caption*{model7-loss}
+			%\label{fig:model7-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[t]{.45\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model7-polynomial+dataset.png}
-			\captionof{figure}{model7-polynomial+dataset}
-			\label{fig:model7-polynomial+dataset}
+			%\caption*{model7-polynomial+dataset}
+			%\label{fig:model7-polynomial+dataset}
 		\end{minipage}
+	\caption{Loss and polynomial curve for training dataset with sigma $8$}
 	\end{figure}
 	
 	
@@ -271,24 +278,25 @@
 	The last experiment consist in reducing the training dataset to $10$ 
 	observations, and compare fitting a polynomial of degree three with fitting 
 	a polynomial of degree four.
-	The resulting polynomials are visualised in Figure 
-	\ref*{fig:model8-loss}.
+	The results are visualised in Figure \ref*{fig:model8-loss}.
 	
 	\begin{figure}[H]
 		\begin{minipage}[t]{.5\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model8-loss.jpg}
-			\captionof{figure}{model8-loss}
-			\label{fig:model8-loss}
+			%\caption{Loss of a polynomial of $4\mathrm{th}$ degree}
+			%\label{fig:model8-loss}
 		\end{minipage}
 		~
 		\begin{minipage}[t]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model8-polynomial+dataset.png}
-			\captionof{figure}{model8-polynomial+dataset}
-			\label{fig:model8-polynomial+dataset}
+			%\caption{Polynomial curves of $4\mathrm{th}$ degree}
+			%\label{fig:model8-polynomial+dataset}
 		\end{minipage}
+	\caption{Polynomial of 4th degree}
 	\end{figure}
+
 	For what concerns the loss, the validation loss continues to grow in the 
 	first $400$ iterations and after that starts going down, while the 
 	training loss is constantly decreasing.
@@ -306,16 +314,17 @@
 		\begin{minipage}[t]{.5\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model8-loss-test.jpg}
-			\captionof{figure}{model8-loss-test}
-			\label{fig:model8-loss-test}
+			%\caption*{model8-loss-test}
+			%\label{fig:model8-loss-test}
 		\end{minipage}
 		~
 		\begin{minipage}[t]{.5\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model8-test-polynomial+dataset.png}
-			\captionof{figure}{model8-test-polynomial+dataset}
-			\label{fig:model8-test-polynomial+dataset}
+			%\caption*{model8-test-polynomial+dataset}
+			%\label{fig:model8-test-polynomial+dataset}
 		\end{minipage}
+	\caption{Polynomial of 4th degree over $8000$ iterations}
 	\end{figure}
 
 \end{document}
