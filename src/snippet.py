@@ -171,8 +171,8 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
 
         x = np.linspace(x_range[0], x_range[1])
 
-        plt.plot(x, extract_y(x, w_star, degrees[0]), label='Weights')
-        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='Estimated weights')
+        plt.plot(x, extract_y(x, w_star, degrees[0]), label='Polynomial')
+        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='Estimated polynomial')
 
         plt.xlabel('x', fontsize=11)
         plt.ylabel('y', fontsize=11)
@@ -180,6 +180,21 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
         plt.title('Polynomial', weight='bold', fontsize=12)
 
         plt.savefig(plot_directory + '-polynomial')
+        plt.show()
+
+        # Plot dataset and estimation
+
+        plt.plot(X_train[:, 1], y_train, '.', label='Train dataset')
+        plt.plot(X_val[:, 1], y_val, '.', label='Validation dataset')
+        plt.plot(x, extract_y(x, w_star, degrees[0]), label='Polynomial')
+        plt.plot(x, extract_y(x, w_hat, degrees[1]), label='Estimated polynomial')
+
+        plt.xlabel('x', fontsize=11)
+        plt.ylabel('y', fontsize=11)
+        plt.legend(fontsize=10, fancybox=True)
+        #plt.title('Polynomial', weight='bold', fontsize=12)
+
+        plt.savefig(plot_directory + '-polynomial+dataset')
         plt.show()
 
         session.close()
