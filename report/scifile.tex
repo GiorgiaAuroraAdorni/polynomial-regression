@@ -5,7 +5,8 @@
 \usepackage[english]{babel} % lingua del documento
 \usepackage[T1]{fontenc} % codifica dei font
 
-\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one 
+%cell.
 \usepackage{booktabs} % For even nicer tables.
 
 \usepackage{graphicx} 
@@ -63,7 +64,9 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	% Up until this point you only have to make minor changes for every week (Number of the homework). Your write up essentially starts here.
+	% Up until this point you only have to make minor changes for every week 
+	%(Number of the homework). Your write up 
+	%essentially starts here.
 	
 	Consider the polynomial $p$ given by
 	\begin{equation*}
@@ -94,12 +97,15 @@
 	In this examining case, after $1248$ iterations the model reach the best loss of $0.2177$.
 	
 	\section{Loss}
-	
-	I used {TensorBoard} to display the loss curves as functions of the gradient descent iterations, for both the training and validation set (over time (iterations)), which are shown in the Figure \ref{fig:model1-loss}.
+	%FIXME
+	I used {TensorBoard} to display the loss curve as function of the gradient 
+	descent iterations, for both the 
+	training and validation set (over time (iterations)), which are shown in 
+	the Figure \ref{fig:model1-loss}.
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.5\linewidth]{../src/img/loss/model1-es-loss-label.jpg}
+		\includegraphics[width=0.5\linewidth]{../src/img/loss/model1-es-loss.jpg}
 		\captionof{figure}{model1-loss}
 		\label{fig:model1-loss}
 	\end{figure}
@@ -107,25 +113,34 @@
 	The two training and validation curves start at $29.69$ and $29.10$ respectively, and go down to $0.24$ and $0.22$ at the $1248\mathrm{th}$ iteration.
 	It is therefore seen that the validation loss is lower than the training loss. The reason why this happens is that the training loss is measured during each epoch while validation loss is computed at the end of the learning phase of the same epoch.
 	
-	\section{Polynomial defined by w\_star and the polynomial defined by your estimate w\_hat} 
-	Considered the polynomial defined by $\textbf{w}^*=[-8,-4,2,1]^T$, in the Figure \ref{fig:model1-dataset} are visualised the training and the validation datasets. 
+	\section{Dataset generation and polynomial regression} 
+	Considered the polynomial defined by $\textbf{w}^*=[-8,-4,2,1]^T$, Figure 
+	\ref{fig:model1-dataset} visualises the training and the validation 
+	datasets generated, while Figure \ref{fig:model1-polynomial} shows 
+	the polynomial defined by $\textbf{w}^*$ and the polynomial estimated 
+	$\hat{\textbf{w}}$.
 	
 	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{../src/img/model1-dataset.png}
-		\captionof{figure}{model1-dataset}
-		\label{fig:model1-dataset}
+		\begin{minipage}[c]{.5\textwidth}
+			\centering
+			\includegraphics[width=1\linewidth]{../src/img/model1-dataset.png}
+			\captionof{figure}{model1-dataset}
+			\label{fig:model1-dataset}
+		\end{minipage}
+		~
+		\begin{minipage}[c]{.5\textwidth}
+			\centering
+			\includegraphics[width=1\linewidth]{../src/img/model1-polynomial.png}
+			\captionof{figure}{model1-polynomial}
+			\label{fig:model1-polynomial}
+		\end{minipage}
 	\end{figure}
 	
-	Since the .... the polynomial defined by $\textbf{w}^*$ and the polynomial estimated $\hat{\textbf{w}}$ are very close, as we can see in the Figure \ref{fig:model1-polynomial}.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.5\linewidth]{../src/img/model1-polynomial.png}
-		\captionof{figure}{model1-polynomial}
-		\label{fig:model1-polynomial}
-	\end{figure}
-	
+ 	The actual polynomial $\textbf{w}^*=[-8,-4,2,1]^T$ and the estimated one 	
+ 	$\hat{\textbf{w}}=[-7.86,-4.08,1.98,1.01]^T$ are very close.
+ 	From the plot in Figure \ref{fig:model1-polynomial+dataset} it is clear 
+ 	that the estimated polynomial curve is able to fit well enough the data.
+ 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.8\linewidth]{../src/img/model1-polynomial+dataset.png}
@@ -133,130 +148,141 @@
 		\label{fig:model1-polynomial+dataset}
 	\end{figure}
 	
-	to visualize 
-	to plot
-	
-	\section{Experiment: training set reduction}
-	
-	Document what happens when the training dataset is reduced to 50, 10, and 5 observations
+	\section{Training set reduction}
+	From the below picture we can observe that reducing the training dataset 
+	from $100$ to $50$, $10$, and finally $5$ observations, the model is not 
+	able to understand the pattern in the set. In fact, observing the loss 
+	curves, while with $50$ observations the model continuing performs well, by 
+	reducing the number of samples down to $5$ the algorithm diverges.
 	
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model2-dataset.png}
-			\captionof{figure}{model2-dataset}
-			\label{fig:model2-dataset}
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model2-loss.jpg}
+			\captionof{figure}{model2-loss}
+			\label{fig:model2-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model2-polynomial.png}
-			\captionof{figure}{model2-polynomial}
-			\label{fig:model2-polynomial}
+			\includegraphics[width=1\linewidth]{../src/img/model2-polynomial+dataset.png}
+			\captionof{figure}{model2-polynomial+dataset}
+			\label{fig:model2-polynomial+dataset}
+		\end{minipage}
+	\caption{Training set 50}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\begin{minipage}[t]{.5\textwidth}
+			\centering
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model3-loss.jpg}
+			\captionof{figure}{model3-loss}
+			\label{fig:model3-loss}
+		\end{minipage}
+		~
+		\begin{minipage}[t]{.5\textwidth}
+			\centering
+			\includegraphics[width=1\linewidth]{../src/img/model3-polynomial+dataset.png}
+			\captionof{figure}{model3-polynomial+dataset}
+			\label{fig:model3-polynomial+dataset}
 		\end{minipage}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model3-dataset.png}
-			\captionof{figure}{model3-dataset}
-			\label{fig:model3-dataset}
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model4-loss.jpg}
+			\captionof{figure}{model4-loss}
+			\label{fig:model4-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model3-polynomial.png}
-			\captionof{figure}{model3-polynomial}
-			\label{fig:model3-polynomial}
+			\includegraphics[width=1\linewidth]{../src/img/model4-polynomial+dataset.png}
+			\captionof{figure}{model4-polynomial+dataset}
+			\label{fig:model4-polynomial+dataset}
+		\end{minipage}
+	\end{figure}
+	
+	\section{Sigma increase}
+	
+	
+	From the below picture we can observe that if we further increase the 
+	variance, from $0.5$ to $2$, $4$, and finally $8$, the model under-fit.
+	In fact, ideally, a model should have a low variance
+
+	
+	\begin{figure}[H]
+		\begin{minipage}[t]{.5\textwidth}
+			\centering
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model5-loss.jpg}
+			\captionof{figure}{model5-loss}
+			\label{fig:model5-loss}
+		\end{minipage}
+		~
+		\begin{minipage}[t]{.5\textwidth}
+			\centering
+			\includegraphics[width=1\linewidth]{../src/img/model5-polynomial+dataset.png}
+			\captionof{figure}{model5-polynomial+dataset}
+			\label{fig:model5-polynomial+dataset}
 		\end{minipage}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model4-dataset.png}
-			\captionof{figure}{model4-dataset}
-			\label{fig:model4-dataset}
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model6-loss.jpg}
+			\captionof{figure}{model6-loss}
+			\label{fig:model6-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model4-polynomial.png}
-			\captionof{figure}{model4-polynomial}
-			\label{fig:model4-polynomial}
-		\end{minipage}
-	\end{figure}
-	
-	\section{Experiment: sigma increasing}
-	
-	Document what happens when $\sigma$ is increased to 2, 4 and 8
-	
-	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
-			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model5-dataset.png}
-			\captionof{figure}{model5-dataset}
-			\label{fig:model5-dataset}
-		\end{minipage}
-		~
-		\begin{minipage}[c]{.5\textwidth}
-			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model5-polynomial.png}
-			\captionof{figure}{model5-polynomial}
-			\label{fig:model5-polynomial}
+			\includegraphics[width=1\linewidth]{../src/img/model6-polynomial+dataset.png}
+			\captionof{figure}{model6-polynomial+dataset}
+			\label{fig:model6-polynomial+dataset}
 		\end{minipage}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model6-dataset.png}
-			\captionof{figure}{model6-dataset}
-			\label{fig:model6-dataset}
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model7-loss.jpg}
+			\captionof{figure}{model7-loss}
+			\label{fig:model7-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model6-polynomial.png}
-			\captionof{figure}{model6-polynomial}
-			\label{fig:model6-polynomial}
-		\end{minipage}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
-			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model7-dataset.png}
-			\captionof{figure}{model7-dataset}
-			\label{fig:model7-dataset}
-		\end{minipage}
-		~
-		\begin{minipage}[c]{.5\textwidth}
-			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model7-polynomial.png}
-			\captionof{figure}{model7-polynomial}
-			\label{fig:model7-polynomial}
+			\includegraphics[width=1\linewidth]{../src/img/model7-polynomial+dataset.png}
+			\captionof{figure}{model7-polynomial+dataset}
+			\label{fig:model7-polynomial+dataset}
 		\end{minipage}
 	\end{figure}
 	
 	
-	\section{Experiment: polynomial of degree four}
-	Reduce your training dataset to 10 observations, and compare fitting a polynomial of degree three (as before) with fitting a polynomial of degree four (which does not match the underlying polynomial p). Plot the resulting polynomials and document the validation loss.
+	\section{Higher degree Polynomial}
+	Reduce your training dataset to 10 observations, and compare fitting a 
+	polynomial of degree three (as before) with fitting a polynomial of degree 
+	four (which does not match the underlying polynomial p). Plot the resulting 
+	polynomials and document the validation loss.
 	
+	Below is a comparison of fitting linear, quadratic and cubic curves on the 
+	dataset.
+	Below is a comparison of curves for degree 3 and 20.
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model8-dataset.png}
-			\captionof{figure}{model8-dataset}
-			\label{fig:model8-dataset}
+			\includegraphics[width=0.85\linewidth]{../src/img/loss/model8-loss.jpg}
+			\captionof{figure}{model8-loss}
+			\label{fig:model8-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[t]{.5\textwidth}
 			\centering
-			\includegraphics[width=1\linewidth]{../src/img/model8-polynomial.png}
-			\captionof{figure}{model8-polynomial}
-			\label{fig:model8-polynomial}
+			\includegraphics[width=1\linewidth]{../src/img/model8-polynomial+dataset.png}
+			\captionof{figure}{model8-polynomial+dataset}
+			\label{fig:model8-polynomial+dataset}
 		\end{minipage}
 	\end{figure}
 	
