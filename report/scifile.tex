@@ -184,8 +184,11 @@
 	
 	If the vector $\textbf{w}^*$ were unknown, linear regression could estimate it given the dataset $\mathcal{D}$. This would require applying a feature map to transform the
 	original dataset $\mathcal{D}$ into an expanded dataset $\mathcal{D}'= \{(x_i, y_i)\}^N_{i=1}$ , where $x_i = [1,x_i,x_i^2,x_i^3]$.
-	Such data generation and expansion is partially illustrated in the code presented below.
 	
+	%%%%%
+	\section{Introduction}
+	The scope of this {project} is to perform polynomial regression using a dataset $\mathcal{D}'$, in particular finding an estimate of $\textbf{w}^*=[-8,-4,2,1]^T$ supposing that such vector is unknown.\\
+	An interval $[-3, 2]$ for $x_i$, a sample of size $100$ created with a seed of $0$ for training, and a sample of size $100$ created with a seed of $1$ for validation, and $\sigma = \frac{1}{2}$ were assumed.
 	
 	\section{Tuning the learning rate}
 	The learning rate is a configurable hyper-parameter that represent the positive amount of which weights are updated during the training of a neural network.\\
