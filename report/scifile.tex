@@ -22,12 +22,15 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{mathtools}
+\usepackage{color}
 
 \usepackage[hidelinks]{hyperref}
 \usepackage{csquotes}
 \usepackage{subfigure}
 
 \pagestyle{fancy}
+
+\setlength\parindent{24pt}
 
 \fancyhf{}
 
@@ -41,8 +44,8 @@
 	
 
 	\thispagestyle{empty}  
-	
-	\begin{tabular}{p{15.5cm}} 
+	\noindent{
+	\begin{tabular}{p{15cm}} 
 		{\large \bf Deep Learning Lab} \\
 		Università della Svizzera Italiana \\ Faculty of Informatics \\ \today  \\
 		\hline
@@ -58,9 +61,9 @@
 		{\bf Giorgia Adorni (giorgia.adorni@usi.ch)}
 		
 	\end{center}  
-	
+}
 	\vspace{0.4cm}
-	
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
@@ -68,14 +71,15 @@
 	%(Number of the homework). Your write up 
 	%essentially starts here.
 	
-	Consider the polynomial $p$ given by
+	\noindent {Consider the polynomial $p$ given by}
 	\begin{equation*}
 	p(x)=x^3+2x^2-4x-8=\sum_{i=1}^4 w_i^*x^{i-1} \mbox{,}
 	\end{equation*} 
-	
 	where $\textbf{w}^*=[-8,-4,2,1]^T$.
 	
-	Consider also an iid dataset $\mathcal{D} = \{(x_i, y_i)\}^N_{i=1}$, where $y_i = p(x_i)+\epsilon_i$, and each $\epsilon_i$ is drawn from a normal distribution with mean zero and standard deviation $\sigma = \frac{1}{2}$.
+	Consider also an iid dataset $\mathcal{D} = \{(x_i, y_i)\}^N_{i=1}$, where 
+	$y_i = p(x_i)+\epsilon_i$, and each $\epsilon_i$ is drawn from a normal 
+	distribution with mean zero and standard deviation $\sigma = \frac{1}{2}$.
 	
 	If the vector $\textbf{w}^*$ were unknown, linear regression could estimate it given the dataset $\mathcal{D}$. This would require applying a feature map to transform the
 	original dataset $\mathcal{D}$ into an expanded dataset $\mathcal{D}'= \{(x_i, y_i)\}^N_{i=1}$ , where $x_i = [1,x_i,x_i^2,x_i^3]$.
@@ -86,28 +90,34 @@
 	An interval $[-3, 2]$ for $x_i$, a sample of size $100$ created with a seed of $0$ for training, and a sample of size $100$ created with a seed of $1$ for validation, and $\sigma = \frac{1}{2}$ were assumed.
 	
 	\section{Tuning the Learning Rate}
-	The learning rate is a configurable hyper-parameter that represent the positive amount of which weights are updated during the training of a neural network.\\
-	I tried to discover a suitable learning rate via trial, setting the initial 
-	number of iterations to $2000$, that is a high value for the quantity of 
-	parameters present.
-	In the first test I set the learning rate to a traditional default value of $0.1$. In this case, the value is too high that the algorithm diverges.\\
-	Hence, I choose to decrease the value to $0.01$ obtaining a validation loss of $0.22$, that is a good results for the gradient descent.
+	The learning rate is a configurable hyper-parameter that represents the 
+	scaling factor of the gradient by which weights are updated during gradient 
+	descent.\\
+	I tried to discover a suitable learning rate via trial and error, setting 
+	the initial number of iterations to $2000$, a relatively high value for the 
+	amount of parameters present.
+	In the first test I set the learning rate to a traditional default value of 
+	$0.1$. In this case, the value is so high that the algorithm diverges.\\
+	Hence, I chose to decrease the value to $0.01$ obtaining a validation loss 
+	of $0.22$, that is a good enough result for the purpose of this assignment.
 	
 	\section{Iterations and Early Stopping}
 	Fixed the learning rate, I decided to reduce the number of iterations using 
-	the \textit{early stopping}. This rule is able to abort the training 
-	procedure when the performance on the validation set stops to improving and 
-	therefore avoid over-fitting. \\
-	In particular, I measured the validation loss in each iteration, keeping track of the lowest one, and I stopped the training when the validation loss has not improved, compared to the best, after $10$ steps.\\
-	In this examining case, after $1248$ iterations the model reach the best loss of $0.2177$.
+	the \textit{early stopping} technique. This rule is able to abort the 
+	training procedure when the performance on the validation set stops 
+	improving and therefore it avoids over-fitting. \\
+	In particular, I measured the validation loss after each iteration, keeping 
+	track of the lowest one, and I stopped the training when the validation 
+	loss did not improve, compared to the best, after $10$ steps.\\
+	In this case, after $1248$ iterations the model reached the best loss of 
+	$0.2177$.
 	
 	\section{Loss}
-	%FIXME
 	I used {TensorBoard} to display the loss curve as function of the gradient 
-	descent iterations, for both the training and validation set (over time 
-	(iterations)), which are shown in the Figure \ref{fig:model1-loss}.
+	descent iterations, for both the training and validation set, which are 
+	shown in the Figure \ref{fig:model1-loss}.
 	
-	\begin{figure}[h]
+	\begin{figure}[htb]
 		\centering
 		\includegraphics[width=0.65\linewidth]{../src/img/loss/model1-es-loss.jpg}
 		\captionof{figure}{Training and validation loss}
@@ -115,9 +125,12 @@
 	\end{figure}
 	
 	The two training and validation curves start at $29.69$ and $29.10$ respectively, and go down to $0.24$ and $0.22$ at the $1248\mathrm{th}$ iteration.
-	It is therefore seen that the validation loss is lower than the training loss. The reason why this happens is that the training loss is measured during each epoch while validation loss is computed at the end of the learning phase of the same epoch.
+	It is therefore seen that the validation loss is lower than the training 
+	loss. {\color{red}The reason why this happens is that the training loss is 
+	measured during each epoch while validation loss is computed at the end of 
+	the learning phase of the same epoch.}
 	
-	\section{Dataset Generation and Polynomial Regression} 
+	\section{Polynomial Regression} 
 	Considered the polynomial defined by $\textbf{w}^*=[-8,-4,2,1]^T$, Figure 
 	\ref{fig:model1-dataset} visualises the training and the validation 
 	datasets generated, while Figure \ref{fig:model1-polynomial} shows 
@@ -125,22 +138,23 @@
 	$\hat{\textbf{w}}$.
 	
 	\begin{figure}[H]
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model1-dataset.png}
-			\caption{Training and validation dataset}
+			\caption{Training and validation datasets}
 			\label{fig:model1-dataset}
 		\end{minipage}
 		~
-		\begin{minipage}[c]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model1-polynomial.png}
-			\caption{Actual and estimated polynomial}
+			\caption{True and estimated polynomials}
 			\label{fig:model1-polynomial}
 		\end{minipage}
 	\end{figure}
 	
- 	The actual polynomial $\textbf{w}^*=[-8,-4,2,1]^T$ and the estimated one 	
+ 	The true polynomial defined by the coefficients 
+ 	$\textbf{w}^*=[-8,-4,2,1]^T$ and the one that has been estimated 
  	$\hat{\textbf{w}}=[-7.86,-4.08,1.98,1.01]^T$ are very close.
  	From the plot in Figure \ref{fig:model1-polynomial+dataset} it is clear 
  	that the estimated polynomial curve is able to fit well enough the data.
@@ -155,19 +169,19 @@
 	\section{Training Set Reduction}
 	From the below pictures we can observe that reducing the training dataset 
 	from $100$ to $50$, $10$, and finally $5$ observations, the model is not 
-	able to understand the pattern in the set. In fact, observing the loss 
-	curves, while with $50$ observations the model continuing performs well, by 
-	reducing the number of samples down to $5$ the algorithm diverges.
+	able to understand the pattern in the set anymore. In fact, observing the 
+	loss curves, while with $50$ observations the model continues performs 
+	well, by reducing the number of samples down to $5$ the algorithm over-fits.
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model2-loss.jpg}
 			%\caption*{model2-loss}
 			%\label{fig:model2-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model2-polynomial+dataset.png}
 			%\caption*{model2-polynomial+dataset}
@@ -178,14 +192,14 @@
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model3-loss.jpg}
 			%\caption*{model3-loss}
 			%\label{fig:model3-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model3-polynomial+dataset.png}
 			%\caption*{model3-polynomial+dataset}
@@ -196,14 +210,14 @@
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model4-loss.jpg}
 			%\caption*{model4-loss}
 			%\label{fig:model4-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model4-polynomial+dataset.png}
 			%\caption*{model4-polynomial+dataset}
@@ -216,115 +230,116 @@
 	\section{Sigma Increase}
 	From the below pictures we can observe that if we further increase the  
 	standard deviation, during the creation of the dataset, from $0.5$ to $2$, 
-	$4$, and finally $8$, the model performances worsen a lot. In fact, the 
+	$4$, and finally $8$, the model performance worsen a lot. In fact, the 
 	losses increase respectively to $3.48$, $13.93$ and $55.74$. Moreover, the 
 	gap between the training and the validation loss growth.
 	One solution to improve the performance could be to increase the 
 	observations in the training set.
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model5-loss.jpg}
 			%\caption*{model5-loss}
 			%\label{fig:model5-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model5-polynomial+dataset.png}
 			%\caption*{model5-polynomial+dataset}
 			%\label{fig:model5-polynomial+dataset}
 		\end{minipage}
-		\caption{Loss and polynomial curve for training dataset with sigma $2$}
+		\caption{Loss and polynomial curves for training dataset with sigma $2$}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model6-loss.jpg}
 			%\caption*{model6-loss}
 			%\label{fig:model6-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model6-polynomial+dataset.png}
 			%\caption*{model6-polynomial+dataset}
 			%\label{fig:model6-polynomial+dataset}
 		\end{minipage}
-	\caption{Loss and polynomial curve for training dataset with sigma $4$}
+	\caption{Loss and polynomial curves for training dataset with sigma $4$}
 	\end{figure}
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model7-loss.jpg}
 			%\caption*{model7-loss}
 			%\label{fig:model7-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.45\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model7-polynomial+dataset.png}
 			%\caption*{model7-polynomial+dataset}
 			%\label{fig:model7-polynomial+dataset}
 		\end{minipage}
-	\caption{Loss and polynomial curve for training dataset with sigma $8$}
+	\caption{Loss and polynomial curves for training dataset with sigma $8$}
 	\end{figure}
 	
 	
 	\section{Higher-degree Polynomial}
-	The last experiment consist in reducing the training dataset to $10$ 
-	observations, and compare fitting a polynomial of degree three with fitting 
-	a polynomial of degree four.
-	The results are visualised in Figure \ref*{fig:model8-loss}.
+	The last experiment consists in reducing the training dataset to $10$ 
+	observations, and comparing a fitted polynomial of degree three with 
+	one of degree four.
+	The results are visualised in Figure \ref*{fig:model8}.
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model8-loss.jpg}
 			%\caption{Loss of a polynomial of $4\mathrm{th}$ degree}
 			%\label{fig:model8-loss}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model8-polynomial+dataset.png}
 			%\caption{Polynomial curves of $4\mathrm{th}$ degree}
 			%\label{fig:model8-polynomial+dataset}
 		\end{minipage}
 	\caption{Polynomial of 4th degree}
+	\label{fig:model8}
 	\end{figure}
 
 	For what concerns the loss, the validation loss continues to grow in the 
 	first $400$ iterations and after that starts going down, while the 
 	training loss is constantly decreasing.
-	
-	In Figure \ref*{fig:model8-polynomial+dataset} is clear that the estimated 
+	In Figure \ref*{fig:model8-test} is clear that the estimated 
 	polynomial of $4\mathrm{th}$ degree is able to fit well the data in 
 	the interval $[-1,2]$ while the polynomial of $3\mathrm{rd}$ degree 
-	in the interval $[-1.5,1]$.\\
+	in the interval $[-1.5,1]$.\bigskip
 	
 	Increasing the number of observations in the training set up to $8000$, it 
 	is possible to have a good understanding of the validation loss behaviour 
 	over time. 
 	
 	\begin{figure}[H]
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=0.85\linewidth]{../src/img/loss/model8-loss-test.jpg}
 			%\caption*{model8-loss-test}
 			%\label{fig:model8-loss-test}
 		\end{minipage}
 		~
-		\begin{minipage}[t]{.5\textwidth}
+		\begin{minipage}[c]{.49\textwidth}
 			\centering
 			\includegraphics[width=1\linewidth]{../src/img/model8-test-polynomial+dataset.png}
 			%\caption*{model8-test-polynomial+dataset}
 			%\label{fig:model8-test-polynomial+dataset}
 		\end{minipage}
 	\caption{Polynomial of 4th degree over $8000$ iterations}
+	\label{fig:model8-test}
 	\end{figure}
 
 \end{document}
