@@ -102,7 +102,7 @@
 	Fixed the learning rate, I decided to reduce the number of iterations using 
 	the \textit{early stopping} technique. This rule can to abort the 
 	training procedure when the performance on the validation set stops 
-	improving and therefore it avoids over-fitting. \\
+	improving and therefore it avoids overfitting. \\
 	In particular, I measured the validation loss after each iteration, keeping 
 	track of the lowest one, and I stopped the training when the validation 
 	loss did not improve, compared to the best, after $10$ steps.\\
@@ -167,11 +167,17 @@
 	\end{figure}
 	
 	\section{Training Set Reduction}
+	It is a fact that the behaviour of the model depends on the number of 
+	samples in te training set.
+	
 	From the below pictures we can observe that reducing the training dataset 
 	from $100$ to $50$, $10$, and finally $5$ observations, the model is not 
-	able to understand the pattern in the set anymore. Observing the 
-	loss curves, while with $50$ observations the model continues performs 
-	well, by reducing the number of samples down to $5$ the algorithm over-fits.
+	able to understand the pattern in the set anymore.  \\
+	While with $50$ observations the loss curve shows that the model continues 
+	performs well. \\
+	By reducing the number of samples down to $10$, the validation loss starts 
+	fluctuating but with a tendency to decrease.\\
+	Finally, reducing the number of observations to $5$ the model overfits.
 	
 	\begin{figure}[H]
 		\begin{minipage}[c]{.49\textwidth}
