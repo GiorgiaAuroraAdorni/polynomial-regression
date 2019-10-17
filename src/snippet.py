@@ -1,7 +1,8 @@
 import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
 
 tf.logging.set_verbosity(tf.logging.ERROR)  # suppress warnings
 
@@ -12,8 +13,8 @@ def create_dataset(shape, w_star, x_range, sample_size, sigma, seed=None):
     :param w_star: polynomial coefficients
     :param x_range: interval in which x should be
     :param sample_size: the number of elements in the dataset
-    :param sigma: standard deviation
-    :param seed:
+    :param sigma: standard deviation of the distribution
+    :param seed: random seed used to initialize the pseudo-random number generator
     :return: X, y that are two np.arrays containing the coordinates of the points of the dataset
     """
     random_state = np.random.RandomState(seed)
@@ -33,12 +34,13 @@ def extract_feature_map(x, degree=3):
     """
     :param x: base number raised to the first "degree" powers
     :param degree: exponents
-    :return: a matrix containing the first 'degree' powers of 'x'
+    :return f: a matrix containing the first 'degree' powers of 'x'
     """
     f = np.zeros([x.shape[0], degree + 1])
 
     for d in range(degree + 1):
         f[:, d] = x ** d
+
     return f
 
 
@@ -46,18 +48,19 @@ def extract_y(x, coefficients, degree):
     """
     :param x: a matrix containing in each row the first 'degree' powers of a random number in the interval [-3, 2]
     :param coefficients: vector of coefficients w_star' (in ascending order: from x**0 to x**n)
-    :return: value of y that satisfy the polynomial given 'x' and 'coefficients'
+    :return y : value of y that satisfy the polynomial given 'x' and 'coefficients'
     """
     y = np.matmul(extract_feature_map(x, degree), coefficients)
+
     return y
 
 
 def net_vars(n_dimensions, learning_rate):
     """
-
+    Define the variables used in the current model
     :param n_dimensions:
     :param learning_rate:
-    :return:
+    :return initializer, summaries, X, y, w, loss, train:
     """
 
     with tf.variable_scope("model_{}".format(n_dimensions)):
@@ -86,16 +89,16 @@ def net_vars(n_dimensions, learning_rate):
     return initializer, summaries, X, y, w, loss, train
 
 
-def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_directory, degrees=None, early_stopping=False):
+def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_directory, degrees=None,
+         early_stopping=False):
     """
-
-    :param net_vars:
-    :param n_iterations:
-    :param sample_size:
-    :param sigma:
-    :param w_star:
-    :param x_range:
-    :param degrees:
+    :param net_vars: initializer, summaries, X, y, w, loss, train
+    :param n_iterations: number of iterations of the algorithm
+    :param sample_size: vector containing train and validation number of samples
+    :param sigma: standard deviation of the distribution (for generating the dataset)
+    :param w_star: coefficients of the given polynomial
+    :param x_range: interval in which x should be
+    :param degrees: degree of the true and the estimated polynomial
     """
 
     initializer, summaries, X, y, w, loss, train = net_vars
@@ -200,7 +203,7 @@ def main(net_vars, n_iterations, sample_size, sigma, w_star, x_range, plot_direc
         plt.xlabel('x', fontsize=11)
         plt.ylabel('y', fontsize=11)
         plt.legend(fontsize=10, fancybox=True)
-        #plt.title('Polynomial', weight='bold', fontsize=12)
+        # plt.title('Polynomial', weight='bold', fontsize=12)
 
         plt.savefig(plot_directory + '-polynomial+dataset')
         plt.show()
@@ -292,7 +295,7 @@ net_vars1 = net_vars(n_dimensions, learning_rate)
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model8', degrees)
 f.close()
 
-# Test with more iteratios
+# Test with more iterations
 f = open(out_directory + "model8-test.txt", "w")
 n_iterations = 8000
 main(net_vars1, n_iterations, sample_size, sigma, w_star, x_range, plot_directory + 'model8-test', degrees)
