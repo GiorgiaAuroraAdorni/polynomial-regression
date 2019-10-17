@@ -96,14 +96,14 @@
 	I tried to discover a suitable learning rate via trial and error, setting 
 	the initial number of iterations to $2000$, a relatively high value for the 
 	amount of parameters present.
-	In the first test I set the learning rate to a traditional default value of 
-	$0.1$. In this case, the value is so high that the algorithm diverges.\\
+	In the first test, I set the learning rate to a traditional default value 
+	of $0.1$. In this case, the value is so high that the algorithm diverges.\\
 	Hence, I chose to decrease the value to $0.01$ obtaining a validation loss 
 	of $0.22$, that is a good enough result for the purpose of this assignment.
 	
 	\section{Iterations and Early Stopping}
 	Fixed the learning rate, I decided to reduce the number of iterations using 
-	the \textit{early stopping} technique. This rule is able to abort the 
+	the \textit{early stopping} technique. This rule can to abort the 
 	training procedure when the performance on the validation set stops 
 	improving and therefore it avoids over-fitting. \\
 	In particular, I measured the validation loss after each iteration, keeping 
@@ -113,9 +113,10 @@
 	$0.2177$.
 	
 	\section{Loss}
-	I used {TensorBoard} to display the loss curve as function of the gradient 
+	I used {TensorBoard} to display the loss curve as a function of the 
+	gradient 
 	descent iterations, for both the training and validation set, which are 
-	shown in the Figure \ref{fig:model1-loss}.
+	shown in Figure \ref{fig:model1-loss}.
 	
 	\begin{figure}[htb]
 		\centering
@@ -124,7 +125,9 @@
 		\label{fig:model1-loss}
 	\end{figure}
 	
-	The two training and validation curves start at $29.69$ and $29.10$ respectively, and go down to $0.24$ and $0.22$ at the $1248\mathrm{th}$ iteration.
+	The two training and validation curves start at $29.69$ and $29.10$ 
+	respectively and go down to $0.24$ and $0.22$ at the $1248\mathrm{th}$ 
+	iteration.
 	It is therefore seen that the validation loss is lower than the training 
 	loss. {\color{red}The reason why this happens is that the training loss is 
 	measured during each epoch while validation loss is computed at the end of 
@@ -133,7 +136,7 @@
 	\section{Polynomial Regression} 
 	Considered the polynomial defined by $\textbf{w}^*=[-8,-4,2,1]^T$, Figure 
 	\ref{fig:model1-dataset} visualises the training and the validation 
-	datasets generated, while Figure \ref{fig:model1-polynomial} shows 
+	datasets generated, while Figure \ref{fig:model1-polynomial}, shows 
 	the polynomial defined by $\textbf{w}^*$ and the polynomial estimated 
 	$\hat{\textbf{w}}$.
 	
@@ -157,7 +160,7 @@
  	$\textbf{w}^*=[-8,-4,2,1]^T$ and the one that has been estimated 
  	$\hat{\textbf{w}}=[-7.86,-4.08,1.98,1.01]^T$ are very close.
  	From the plot in Figure \ref{fig:model1-polynomial+dataset} it is clear 
- 	that the estimated polynomial curve is able to fit well enough the data.
+ 	that the estimated polynomial curve is fitting well enough the data.
  	
 	\begin{figure}[H]
 		\centering
@@ -169,7 +172,7 @@
 	\section{Training Set Reduction}
 	From the below pictures we can observe that reducing the training dataset 
 	from $100$ to $50$, $10$, and finally $5$ observations, the model is not 
-	able to understand the pattern in the set anymore. In fact, observing the 
+	able to understand the pattern in the set anymore. Observing the 
 	loss curves, while with $50$ observations the model continues performs 
 	well, by reducing the number of samples down to $5$ the algorithm over-fits.
 	
@@ -230,9 +233,9 @@
 	\section{Sigma Increase}
 	From the below pictures we can observe that if we further increase the  
 	standard deviation, during the creation of the dataset, from $0.5$ to $2$, 
-	$4$, and finally $8$, the model performance worsen a lot. In fact, the 
-	losses increase respectively to $3.48$, $13.93$ and $55.74$. Moreover, the 
-	gap between the training and the validation loss growth.
+	$4$, and finally $8$, the model performance worsen a lot. The losses 
+	increase respectively to $3.48$, $13.93$ and $55.74$. Moreover, the 
+	gap between training and validation loss growth.
 	One solution to improve the performance could be to increase the 
 	observations in the training set.
 	
@@ -290,7 +293,7 @@
 	
 	\section{Higher-degree Polynomial}
 	The last experiment consists in reducing the training dataset to $10$ 
-	observations, and comparing a fitted polynomial of degree three with 
+	observations and comparing a fitted polynomial of degree three with 
 	one of degree four.
 	The results are visualised in Figure \ref*{fig:model8}.
 	
@@ -316,7 +319,7 @@
 	first $400$ iterations and after that starts going down, while the 
 	training loss is constantly decreasing.
 	In Figure \ref*{fig:model8-test} is clear that the estimated 
-	polynomial of $4\mathrm{th}$ degree is able to fit well the data in 
+	polynomial of $4\mathrm{th}$ degree is capable of fit well the data in 
 	the interval $[-1,2]$ while the polynomial of $3\mathrm{rd}$ degree 
 	in the interval $[-1.5,1]$.\bigskip
 	
